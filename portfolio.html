@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mariyah Jamali</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #d4a574;
+            --secondary-color: #c49363;
+            --accent-color: #b8855a;
+            --text-primary: #8b6f47;
+            --text-secondary: #a67c52;
+            --text-light: #d4a574;
+            --bg-primary: #faf8f5;
+            --bg-secondary: #f5f1ec;
+            --bg-card: #f0ebe4;
+            --border-color: #e8ddd1;
+            --shadow: 0 4px 15px rgba(212, 165, 116, 0.15);
+            --shadow-hover: 0 8px 25px rgba(212, 165, 116, 0.25);
+        }
+
+        [data-theme="dark"] {
+            --text-primary: #f5f1ec;
+            --text-secondary: #e8ddd1;
+            --text-light: #d4a574;
+            --bg-primary: #2c2318;
+            --bg-secondary: #3d2f20;
+            --bg-card: #3d2f20;
+            --border-color: #4a3a2a;
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            transition: all 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 1.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .navbar {
+            background: rgba(44, 35, 24, 0.95);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: normal;
+            color: var(--text-primary);
+            font-family: 'Georgia', serif;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: normal;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+            font-family: 'Georgia', serif;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            display: none;
+            cursor: pointer;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        /* Sections */
+        section {
+            padding: 4rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--bg-primary);
+            position: relative;
+            padding-top: 100px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: normal;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            line-height: 1.2;
+            font-family: 'Georgia', serif;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            opacity: 0;
+            animation: fadeInUp 1s ease 0.2s forwards;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeInRight 1s ease 0.4s forwards;
+        }
+
+        .profile-photo {
+            width: 350px;
+            height: 450px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Section Headers */
+        .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .section-number {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: normal;
+        }
+
+        .section-header h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-weight: normal;
+            font-family: 'Georgia', serif;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            max-width: 600px;
+        }
+
+        /* Introduction Section */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .intro-content p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Cards */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .project-image {
+            height: 180px;
+            background: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            position: relative;
+        }
+
+        .project-image::before {
+            content: '✨';
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 1.5rem;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .project-content h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: normal;
+            font-family: 'Georgia', serif;
+        }
+
+        .project-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Experience Cards */
+        .experience-card {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .experience-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: normal;
+            font-family: 'Georgia', serif;
+        }
+
+        .experience-card .company {
+            color: var(--text-primary);
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .experience-card .date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .experience-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: normal;
+            font-family: 'Georgia', serif;
+        }
+
+        .contact-section p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .contact-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+            font-size: 0.95rem;
+        }
+
+        .contact-button:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .profile-photo {
+                width: 280px;
+                height: 350px;
+            }
+        }
+
+            .keep-color-link {
+                color: inherit;
+                text-decoration: none;
+            }
+
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--bg-primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: var(--shadow);
+                border-top: 1px solid var(--border-color);
+            }
+
+            .nav-links.show {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Mariyah Jamali</div>
+            <ul class="nav-links">
+                <li><a href="#about">Introduction</a></li>
+                <li><a href="#experience">Work Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="mailto:mjamali@usc.edu" class="contact-button">Let's Chat!</a></li>
+            </ul>
+            <div class="mobile-menu" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Aspiring Product Manager with a background in AI and a soft spot for Marketing :)</h1>
+            </div>
+            <div class="hero-image">
+                <div class="profile-photo">
+                    <img src="chill.jpeg" alt="me">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="intro-grid">
+            <div>
+                <div class="section-number">01 — Introduction</div>
+            </div>
+            <div class="intro-content">
+                <p>Hi, I'm Mariyah! I'm a 3rd Year USC student studying AI for Business. I aspire to be an AI Product Manager. I've spent a lot of time inside and outside the classroom working with/on AI Products.<br><br>Outside of my professional aspirations, I enjoy being creative and active. For me that looks like content creation, dance, tennis, and sometimes cooking. </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="intro-grid">
+            <div>
+                <div class="section-number">02 — Work Experience</div>
+                <p>hint: u can click on the company name ;)</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 3rem;">
+            <div class="experience-card">
+                <h3>Go To Market (GTM) Intern</h3>
+                <div class="company"><a href="https://www.getsymphony.co/" target="_blank" class="keep-color-link">Symphony</a></div>
+                <div class="date">May 2025 - August 2025</div>
+                <ul>
+                    <li>Launch email marketing campaign and conducted competitive analysis and market research to shape GTM strategy</li>
+                    <li>Design and test different versions of AI voice agents; made each version according to client specifications</li>
+                    <li>Create mock websites using Framer during transition period switching product use case and target user persona</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
+                <h3>Generative AI Externship</h3>
+                <div class="company"><a href="https://www.cognizant.com/us/en" target="_blank" class="keep-color-link">Cognizant</a></div>
+                <div class="date">May 2025 - June 2025</div>
+                <ul>
+                    <li>Gained hands-on experience in AI/ML, working with BERT for NLP and GANs for generative tasks</li>
+                    <li>Built and trained Python models using TensorFlow, VS Code, and PyTorch; collaborated via GitHub</li>
+                    <li>Generated model comparing OpenAI API and Hugging Face Transformers for NLP tasks (summarization, classification, Q&A), analyzing performance, cost, and usability in real-world applications</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
+                <h3>AI Knowledge Base Engineer Intern</h3>
+                <div class="company"><a href="https://arimagenomics.com/" target="_blank" class="keep-color-link">Arima Genomics</a></div>
+                <div class="date">February 2025 - June 2025</div>
+                <ul>
+                    <li>Managed project lifecycle, from market research to product design and building to deployment and stakeholder training</li>
+                    <li>Boosted internal efficiency and directly optimize response times to customers by collaborating cross-functionally with technical support and sales teams to identify pain points and tailor product accordingly</li>
+                    <li>Achieved a 60% reduction in internal information retrieval time by leveraging AI and machine learning to organize and surface critical research data and protocol documentation with a focus on Hi-C protocols</li>
+                </ul>
+            </div>
+
+            <div class="experience-card">
+                <h3>Product Manager Intern</h3>
+                <div class="company"><a href="https://www.frenchydigital.com/" target="_blank" class="keep-color-link">Frenchy Digital</a></div>
+                <div class="date">May 2024 - August 2024</div>
+                <ul>
+                    <li>Optimized cross-team collaboration by integrating Loom, Fireflies, and Trello into daily workflows</li>
+                    <li>Completed 3 back to back milestones before previously established deadlines by leading developers and redesigning 5 core product features, including key UI/UX flows using Figma and assisting developers</li>
+                    <li>Executed comprehensive user research and market analysis to define product direction; scoped and documented project requirements with Google Workspace and Excel, ensuring 100% clarity on goals and milestones</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="experience">
+        <div class="intro-grid">
+            <div>
+                <div class="section-number">03 — Projects</div>
+            </div>
+        </div>
+
+    <section id="projects">
+        <div class="cards-grid">
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>SIPZ</h3>
+                    <p>Web-first mobile-centric fitness mental health app, plus core brands that reflects into a path to achieve learning.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>AGENTIC AI RESEARCH</h3>
+                    <p>Agentic AI in International Development - Collaboration Project with Salesforce x Thunder Consulting x USC Neely Center for Ethical Leadership and Decision Making</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>ARIMA FINAL PROJECT</h3>
+                    <p>Colorful tips for managing mental and physical health through exercise, mindfulness, and self-care.</p>
+                </div>
+            </div>
+   <!-- 
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>Video Creation Example</h3>
+                    <p>A short video I produced for our C-PASS program in partnership with AAPIHM during our time at the UTM Students Union.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>Sample Instagram Feed</h3>
+                    <p>Mock Instagram account and feed created to demonstrate how I would manage their company.</p>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-image"></div>
+                <div class="project-content">
+                    <h3>Sample Website Design</h3>
+                    <p>Mock website design created to advertise the company's goals and services.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    -->
+
+    <!-- Contact Section 
+    <section id="contact" class="contact-section">
+         <h2>Let's chat!</h2>
+        <p></p>
+        <a href="mailto:your.email@usc.edu" class="contact-button">Let's Chat!</a>
+    </section>
+    -->
+
+    <script>
+        // Theme toggle functionality
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.innerHTML = 'Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = 'Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load saved theme
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.innerHTML = 'Light Mode';
+            }
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('show');
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function() {
+                const navLinks = document.querySelector('.nav-links');
+                navLinks.classList.remove('show');
+            });
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTheme();
+            
+            const animateElements = document.querySelectorAll('.project-card, .experience-card');
+            animateElements.forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
